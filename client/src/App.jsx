@@ -1,7 +1,9 @@
+import Customize from "./pages/Customize"
+
 function App() {
   return (
     <>
-
+    <Customize/>
     </>
   )
 }
