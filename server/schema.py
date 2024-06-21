@@ -1,20 +1,19 @@
 import datetime
 from typing import List, Optional
 from uuid import UUID, uuid4
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from enum import Enum
 
 
-class Role(str,Enum):
-    admin="admin"
-    user="user"
     
 class User(BaseModel):
-    id:Optional[UUID]=uuid4()
+    id: UUID = Field(default_factory=uuid4, alias="id")
     first_name:str
     middle_name:Optional[str]
     last_name:str
-    role:List[Role]
+    email:str
+    password:str
+    phone_no:str
 
 class Flavour(str,Enum):
     chocolate="Chocolate"
@@ -48,7 +47,7 @@ class Size(str,Enum):
     large="L"
     
 class BubbleTea(BaseModel):
-    id:Optional[UUID]=uuid4()
+    id: UUID = Field(default_factory=uuid4, alias="id")
     name:Optional[str]
     flavour:List[Flavour]
     flavourColor:List[FlavourColor]
@@ -59,22 +58,17 @@ class BubbleTea(BaseModel):
     quantity:int
 
 class Cart(BaseModel):
-    id:Optional[UUID]=uuid4()
+    id: UUID = Field(default_factory=uuid4, alias="id")
     user_id:User.id
     items:List[BubbleTea]
     total_amount:float
-    
-class Payment(BaseModel):
-    id: Optional[UUID] = uuid4()
-    cart_id: UUID
-    amount: float
-    payment_status: str
-    
+
+
 class Order(BaseModel):
-    id: Optional[UUID] = uuid4()
+    id: UUID = Field(default_factory=uuid4, alias="id")
     user_id: UUID
     cart_id: UUID
     order_status: str
-    created_at: datetime
-    
+    created_at: datetime.datetime
+    address: str
     
