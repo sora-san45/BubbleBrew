@@ -19,7 +19,7 @@ const Sidebar = () => {
     };
 
     return (
-        <div className='w-full md:w-1/5 h-screen p-3 gap-2 flex flex-col bg-orange-100 border-2 border-black border-opacity-40 shadow-md'>
+        <div className='md:w-1/5 h-screen p-3 gap-2 md:flex flex-col bg-orange-100 border-2 border-black border-opacity-40 shadow-md'>
             <Link
                 to="/dash"
                 className={getLinkClasses("/dash")}

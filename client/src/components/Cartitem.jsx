@@ -3,7 +3,7 @@ import CartBoba from "./CartBoba";
 
 const Cartitem = (props) => {
     return (
-        <div className=" relative bg-orange-100 border-2 border-black border-opacity-60 flex rounded-lg gap-10 py-4 p-3 px-6">
+        <div className=" relative bg-yellow-950 bg-opacity-15 shadow-sm  flex rounded-lg gap-10 py-4 p-3 px-6">
             <CartBoba />
             <div className="absolute h-10 w-10 top-0 right-0 bg-black opacity-60 rounded-bl-3xl flex justify-center items-center  rounded-tr-md">
             <FaTrashCan color="#FFEDD5" />

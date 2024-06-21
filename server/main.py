@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID, uuid4
 from fastapi import FastAPI
-from models import Gender, Role, User
+from server.schema import  Role, User
 
 app = FastAPI()
 
@@ -10,17 +10,16 @@ db:List[User]=[
         id=UUID("d4526289-bef5-4a94-8931-5f8cb54e7d32"),
         first_name="jamila",
         last_name="ahmed",
-        gender=Gender.female,
         role=[Role.student]
     ),
     User(
         id=UUID("79bc38da-868e-4a35-8eb9-9f4cc97458e9"),
         first_name="alex",
         last_name="jones",
-        gender=Gender.female,
         role=[Role.admin,Role.user]
     )
 ]
+
 
 @app.get("/")
 async def root():
