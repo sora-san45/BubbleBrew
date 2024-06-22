@@ -6,12 +6,12 @@ const CartBoba = () => {
             <div className=' h-3  w-20 rounded bg-black'></div>
             <div className=' h-20  w-16 flex flex-col  justify-end border-2 border-black rounded-b-md'>
                 <div className={` h-16 flex flex-col justify-end items-center gap-2 ${'bg-emerald-200'} p-3 rounded-b `}>
-                    <div className='flex gap-3'>
+                    <div className='flex gap-3 px-2'>
                         <div className={`h-2.5 w-2.5 rounded-full ${'bg-black'}`}></div>
                         <div className={`h-2.5 w-2.5 rounded-full -my-1.5 ${'bg-black'}`}></div>
                         <div className={`h-2.5 w-2.5 rounded-full ${'bg-black'}`}></div>
                     </div>
-                    <div className='flex gap-3'>
+                    <div className='flex gap-3 px-2'>
                         <div className={`h-2.5 w-2.5 rounded-full ${'bg-black'}`}></div>
                         <div className={`h-2.5 w-2.5 rounded-full ${'bg-black'}`}></div>
                         <div className={`h-2.5 w-2.5  rounded-full m-0.4  ${'bg-black'}`}></div>

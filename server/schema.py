@@ -6,14 +6,17 @@ from enum import Enum
 
 
     
-class User(BaseModel):
-    id: UUID = Field(default_factory=uuid4, alias="id")
-    first_name:str
-    middle_name:Optional[str]
-    last_name:str
-    email:str
-    password:str
-    phone_no:str
+class UserSchema(BaseModel):
+    id: UUID
+    first_name: str
+    middle_name: Optional[str]
+    last_name: str
+    email: str
+    phone_no: str
+
+    class Config:
+        orm_mode = True
+        from_attributes = True  
 
 class Flavour(str,Enum):
     chocolate="Chocolate"
@@ -41,34 +44,46 @@ class Toppings(str,Enum):
     red_beans="Red Beans"
     agar="Agar"
     
-class Size(str,Enum):
-    small="S"
-    medium="M"
-    large="L"
+
     
-class BubbleTea(BaseModel):
+class BubbleTeaSchema(BaseModel):
     id: UUID = Field(default_factory=uuid4, alias="id")
-    name:Optional[str]
-    flavour:List[Flavour]
-    flavourColor:List[FlavourColor]
-    topping:List[Toppings]
-    toppingColor:List[ToppingColor]
-    size:List[Size]
+    name:str
+    user_id:UUID
+    flavour:Flavour
+    flavour_color:FlavourColor
+    topping:Toppings
+    topping_color:ToppingColor
+    size:str
     price:float
     quantity:int
+    class Config:
+        orm_mode = True
+        from_attributes = True  
 
-class Cart(BaseModel):
+class CartSchema(BaseModel):
     id: UUID = Field(default_factory=uuid4, alias="id")
-    user_id:User.id
-    items:List[BubbleTea]
+    user_id:UUID
+    items:List[BubbleTeaSchema]
     total_amount:float
+    class Config:
+        orm_mode = True
+        from_attributes = True  
 
 
-class Order(BaseModel):
+class OrderSchema(BaseModel):
     id: UUID = Field(default_factory=uuid4, alias="id")
     user_id: UUID
-    cart_id: UUID
     order_status: str
-    created_at: datetime.datetime
     address: str
+    total_amount: Optional[float] = Field(default=0.0) 
+    class Config:
+        orm_mode = True
+        from_attributes = True  
     
+class OrderBubbleTeaResponse(BaseModel):
+    order: OrderSchema
+    bubble_teas: List[BubbleTeaSchema]
+    class Config:
+        orm_mode = True
+        from_attributes = True  
