@@ -3,6 +3,7 @@ import Customize from "./pages/Shop"
 import Cart from "./pages/Cart"
 import Orders from "./pages/Orders"
 import Layout from "./Layout"
+import './App.css'
 
 function App() {
   return (

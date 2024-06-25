@@ -15,11 +15,11 @@ const Sidebar = () => {
     const getLinkClasses = (path) => {
         return location.pathname === path
             ? "bg-black bg-opacity-70 p-3 font-semibold text-orange-100 rounded text-start"
-            : "border-2 p-3 border-black border-opacity-50 font-semibold text-black text-opacity-60 rounded text-start";
+            : " p-3  font-semibold text-black text-opacity-60 rounded text-start";
     };
 
     return (
-        <div className='md:w-1/5 h-screen p-3 gap-2 md:flex flex-col bg-orange-100 border-2 border-black border-opacity-40 shadow-md'>
+        <div className='md:w-1/5 h-screen p-3 gap-2 md:flex flex-col bg-orange-200 bg-opacity-60 py-6  shadow-md'>
             <Link
                 to="/dash"
                 className={getLinkClasses("/dash")}
