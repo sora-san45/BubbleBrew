@@ -7,6 +7,7 @@ import { MdPayments } from "react-icons/md";
 const Sidebar = () => {
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
+    
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);

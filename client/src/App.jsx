@@ -4,11 +4,15 @@ import Cart from "./pages/Cart"
 import Orders from "./pages/Orders"
 import Layout from "./Layout"
 import './App.css'
+import Landing from "./pages/Landing"
+import Login from "./pages/Login"
 
 function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<Landing/>}></Route>
+        <Route path="/login" element={<Login/>}></Route>
         <Route path="/dash/*" element={<Layout />}>
           <Route index element={<Customize />} />
           <Route path="cart" element={<Cart />} />

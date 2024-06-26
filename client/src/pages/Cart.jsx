@@ -2,17 +2,17 @@ import Cartitem from "../components/Cartitem";
 
 const Cart = () => {
     return (
-        <div className="bg-orange-100 h-screen p-4 gap-10 flex">
+        <div className="bg-orange-100 h-screen p-4 gap-10 flex overflow-x-hidden">
             <div className="w-1/2 flex flex-col gap-5 ">
-                <h1 className=" font-extrabold text-3xl opacity-70" style={{fontFamily:"Jua"}} >Your Cart</h1>
-                <div className=" h-screen overflow-y-auto pr-4">
+                <h1 className=" font-bold text-3xl opacity-70"  >Your Cart</h1>
+                <div className=" h-screen  pr-4">
                     <div className=" flex gap-5 flex-col ">
                         <Cartitem />
                         <Cartitem />
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col ml-10 px-10 min-w-96 h-fit py-7 shadow-sm  mt-14   gap-3 rounded-sm bg-yellow-950 bg-opacity-20 p-3">
+            <div className="flex flex-col ml-10 px-10 min-w-96 h-fit py-7 shadow-sm  mt-14   gap-3 rounded-sm bg-yellow-950 bg-opacity-15 p-3">
                 <h1 className="font-bold text-2xl mb-5 opacity-70">Cart Totals</h1>
                 <div className="flex justify-between items-center">
                     <h1 className=" font-semibold text-black text-opacity-70 ">Subtotal</h1>

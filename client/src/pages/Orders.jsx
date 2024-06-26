@@ -1,6 +1,8 @@
 const Orders = () => {
     return ( 
-        <h1>hello</h1>
+        <div className=" flex bg-orange-100 h-screen w-full">
+
+        </div>
      );
 }
  
