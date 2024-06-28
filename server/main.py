@@ -1,16 +1,85 @@
-from datetime import datetime
-from typing import Dict, List
+from datetime import datetime, timedelta
+from typing import Dict, List, Optional
 from uuid import UUID, uuid4
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI,Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from database import get_db
+from database import get_db,SessionLocal
 from models import BubbleTea, Cart, CartItem, Order, OrderItem, User
-from schema import BubbleTeaSchema, OrderBubbleTeaResponse, OrderSchema, UserSchema
+from schema import BubbleTeaSchema, OrderBubbleTeaResponse, OrderSchema, TokenSchema, UserLoginSchema, UserSchema
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+
+SECRET_KEY = "maryannnoo"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:5173",  
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+#auth stuffs
+
+
+
+
+
+
+@app.post("/login", response_model=TokenSchema)
+async def login_for_access_token(user_login: UserLoginSchema, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == user_login.email).first()
+    if not user or user.password != user_login.password:
+        raise HTTPException(
+            status_code=404,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    # Token creation inline
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode = {"sub": user.email, "exp": datetime.utcnow() + access_token_expires}
+    access_token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    
+    # Return TokenSchema with access_token, token_type, and user_id
+    return TokenSchema(access_token=access_token, token_type="bearer", user_id=user.id)
+
+
+@app.post("/signup",response_model=UserSchema)
+def add_user(user_add:UserSchema,db:Session=Depends(get_db)):
+    try:
+        user=User(
+        id=uuid4(),
+        first_name=user_add.first_name,
+        last_name=user_add.last_name,
+        email=user_add.email,
+        password=user_add.password,
+        phone_no=user_add.phone_no,
+        address=user_add.address)
+        
+        
+    
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+        
+        return user
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500,detail=str(e))
+    
 
 @app.get("/users",response_model=List[UserSchema])
 def get_all_users(db:Session=Depends(get_db)):

@@ -6,6 +6,7 @@ import Layout from "./Layout"
 import './App.css'
 import Landing from "./pages/Landing"
 import Login from "./pages/Login"
+import Signup from "./pages/Signup"
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing/>}></Route>
         <Route path="/login" element={<Login/>}></Route>
+        <Route path="/signup" element={<Signup/>}/>
         <Route path="/dash/*" element={<Layout />}>
           <Route index element={<Customize />} />
           <Route path="cart" element={<Cart />} />

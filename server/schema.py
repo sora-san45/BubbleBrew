@@ -9,14 +9,25 @@ from enum import Enum
 class UserSchema(BaseModel):
     id: UUID
     first_name: str
-    middle_name: Optional[str]
     last_name: str
     email: str
+    password:str
     phone_no: str
+    address: str
+    class Config:
+        orm_mode = True
+
+class UserLoginSchema(BaseModel):
+    email: str
+    password: str
+
+class TokenSchema(BaseModel):
+    access_token: str
+    token_type: str
+    user_id: UUID
 
     class Config:
         orm_mode = True
-        from_attributes = True  
 
 class Flavour(str,Enum):
     chocolate="Chocolate"
@@ -59,7 +70,7 @@ class BubbleTeaSchema(BaseModel):
     quantity:int
     class Config:
         orm_mode = True
-        from_attributes = True  
+
 
 class CartSchema(BaseModel):
     id: UUID = Field(default_factory=uuid4, alias="id")
@@ -68,7 +79,7 @@ class CartSchema(BaseModel):
     total_amount:float
     class Config:
         orm_mode = True
-        from_attributes = True  
+
 
 
 class OrderSchema(BaseModel):
@@ -79,11 +90,10 @@ class OrderSchema(BaseModel):
     total_amount: Optional[float] = Field(default=0.0) 
     class Config:
         orm_mode = True
-        from_attributes = True  
+
     
 class OrderBubbleTeaResponse(BaseModel):
     order: OrderSchema
     bubble_teas: List[BubbleTeaSchema]
     class Config:
         orm_mode = True
-        from_attributes = True  

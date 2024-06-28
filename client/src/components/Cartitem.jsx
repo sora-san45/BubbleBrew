@@ -15,7 +15,10 @@ const Cartitem = (props) => {
                         <h1 className=" text-xl font-medium  text-orange-100 ">S</h1>
                     </div>
                 </div>
+                <div className=" flex items-end justify-between">
                 <h1 className=" text-5xl font-bold opacity-70">$ 2 </h1>
+                <h1 className=" text-2xl font-semibold opacity-70">2x</h1>
+                </div>
                 
             </div>
         </div>

@@ -10,11 +10,11 @@ class User(Base):
     __tablename__ = "users"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4,index=True)
     first_name = Column(String(50), nullable=False)
-    middle_name = Column(String(50), nullable=True)
     last_name = Column(String(50), nullable=False)
     email=Column(String(100),nullable=False)
     password=Column(String(50),nullable=False)
     phone_no=Column(String(10),nullable=False)
+    address=Column(String(255),nullable=False)
     orders = relationship("Order", back_populates="user")
     
 class FlavourEnum(str,enum.Enum):

@@ -12,7 +12,7 @@ const Cart = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col ml-10 px-10 min-w-96 h-fit py-7 shadow-sm  mt-14   gap-3 rounded-sm bg-yellow-950 bg-opacity-15 p-3">
+            <div className="flex flex-col ml-10 px-10 min-w-96 h-fit py-7 shadow-sm  mt-14   gap-3 rounded-md border-2 border-dashed border-yellow-950 border-opacity-30">
                 <h1 className="font-bold text-2xl mb-5 opacity-70">Cart Totals</h1>
                 <div className="flex justify-between items-center">
                     <h1 className=" font-semibold text-black text-opacity-70 ">Subtotal</h1>

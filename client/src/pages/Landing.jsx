@@ -27,7 +27,7 @@ const Landing = () => {
                     transition: { duration: 0.2 },
                 }}
                     whileTap={{ scale: 0.9 }}>
-                    <button className='bg-black bg-opacity-70 mt-10  shadow-md  text-orange-100 rounded-full flex justify-center items-center gap-1 px-4 py-2' onClick={() => navigate('/dash/')} >
+                    <button className='bg-black bg-opacity-70 mt-10  shadow-md  text-orange-100 rounded-full flex justify-center items-center gap-1 px-4 py-2' onClick={() => navigate('/login')} >
                         <h1>Shop Now</h1>
                         <FaChevronRight />
                     </button>
