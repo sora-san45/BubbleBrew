@@ -25,6 +25,7 @@ class TokenSchema(BaseModel):
     access_token: str
     token_type: str
     user_id: UUID
+    address: str
 
     class Config:
         orm_mode = True

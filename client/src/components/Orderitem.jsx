@@ -1,6 +1,6 @@
 import CartBoba from "./CartBoba";
 
-const Orderitem = () => {
+const Orderitem = (props) => {
     return (
         <div className="flex items-center justify-between mt-10 py-3 px-4 rounded ">
             <CartBoba />

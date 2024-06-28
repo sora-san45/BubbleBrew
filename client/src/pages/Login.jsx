@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast ,ToastContainer} from "react-toastify";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -22,16 +23,24 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://127.0.0.1:8000/login', formData);
-            console.log(response.data)
-            localStorage.setItem('jwtToken', response.data);
+            localStorage.setItem('jwtToken', JSON.stringify(response.data));
+            console.log(JSON.parse(localStorage.getItem('jwtToken')))
+            toast('Logged in Successfully', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "dark",
+                
+            });
             navigate("/dash")
             
         } catch (error) {
-            console.error("Login failed", error);
             if (error.response) {
                 console.error("Response data:", error.response.data);
             }
-            // Handle specific errors or display a message to the user
         }
     };
 
@@ -48,6 +57,7 @@ const Login = () => {
                 </button>
                 <h1 className='mt-5'>Don't have an account?</h1>
                 <h1 className='cursor-pointer font-semibold' onClick={() => navigate('/signup')}>Signup</h1>
+                <ToastContainer/>
             </div>
         </div>
     );

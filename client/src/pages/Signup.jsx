@@ -61,7 +61,7 @@ const Signup = () => {
                         <input type="password" id="password" placeholder="Password" className="bg-orange-50 w-full rounded-md focus:outline-none border-gray-200 px-5 py-3 shadow-sm sm:text-sm" value={formData.password} onChange={handleChange} />
                     </div>
                 </div>
-                <button onClick={handleSubmit} className='bg-black mt-3 bg-opacity-70 w-24 shadow-md text-orange-100 rounded-full flex justify-center items-center gap-1 px-4 py-2'>
+                <button onClick={handleSubmit} className='bg-black mt-5 bg-opacity-70 w-24 shadow-md text-orange-100 rounded-full flex justify-center items-center gap-1 px-4 py-2'>
                     <h1>Signup</h1>
                 </button>
                 <h1 className='mt-2'>Have an account?</h1>
