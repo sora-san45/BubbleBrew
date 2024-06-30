@@ -18,7 +18,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 app = FastAPI()
 
 origins = [
-    "https://bubblebrewsite.netlify.app/",
+    "https://bubblebrew-qtnhhxjzm-maryanns-projects.vercel.app",
     "http://localhost:5173"
       
 ]
