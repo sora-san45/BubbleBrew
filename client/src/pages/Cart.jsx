@@ -15,7 +15,7 @@ const Cart = () => {
                 const token = localStorage.getItem('jwtToken');
                 if (token) {
                     const userId = JSON.parse(token).user_id;
-                    const response = await axios.get(`https://bubblebrew-server-latest.onrender.com/cart_items/${userId}`);
+                    const response = await axios.get(`/api/cart_items/${userId}`);
                     const { cart_items, total_amount } = response.data;
                     setCartTeas(cart_items);
                     setSubtotal(total_amount);
@@ -35,8 +35,8 @@ const Cart = () => {
             const token = localStorage.getItem('jwtToken');
             if (token) {
                 const userId = JSON.parse(token).user_id;
-                await axios.delete(`https://bubblebrew-server-latest.onrender.com/delete_item/${userId}/${bubbleTeaId}`);
-                const response = await axios.get(`https://bubblebrew-server-latest.onrender.com/cart_items/${userId}`);
+                await axios.delete(`/api/delete_item/${userId}/${bubbleTeaId}`);
+                const response = await axios.get(`/api/cart_items/${userId}`);
                 const { cart_items, total_amount } = response.data
                 toast('🗑️ Deleted bubble tea', {
                     position: "top-center",
@@ -74,7 +74,7 @@ const Cart = () => {
                     address: address,
                     total_amount:total
                 };
-                axios.post(`https://bubblebrew-server-latest.onrender.com/orders`, orderData)
+                axios.post(`/api/orders`, orderData)
                   .then(response => {
                     console.log('successful:', response.data);
                     toast.success('Order placed successfully!', {
