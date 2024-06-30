@@ -69,7 +69,7 @@ const Customize = () => {
                 console.log('Added:', response.data);
             })
             .catch(error => {
-                console.error('Signup failed:', error);
+                console.error(' failed:', error);
             });
             
         } catch (error) {
