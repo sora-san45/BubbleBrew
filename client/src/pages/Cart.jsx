@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cartitem from "../components/Cartitem";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = () => {
     const [cartTeas, setCartTeas] = useState([]);
@@ -15,14 +16,22 @@ const Cart = () => {
                 const token = localStorage.getItem('jwtToken');
                 if (token) {
                     const userId = JSON.parse(token).user_id;
-                    const response = await axios.get(`/api/cart_items/${userId}`);
-                    const { cart_items, total_amount } = response.data;
-                    setCartTeas(cart_items);
-                    setSubtotal(total_amount);
-                    setLoading(false)
+                    axios.get(`/api/cart_items/${userId}`)
+                        .then(response => {
+                            const { cart_items, total_amount } = response.data;
+                            setCartTeas(cart_items);
+                            setSubtotal(total_amount);
+                            setLoading(false);
+                        })
+                        .catch(error => {
+                            console.error('Failed to fetch cart items:', error);
+                            setLoading(false); 
+                        });
+                } else {
+                    setLoading(false);
                 }
             } catch (error) {
-                console.error('Failed to fetch cart items:', error)
+                console.error('Failed to fetch cart items:', error);
                 setLoading(false); 
             }
         };
@@ -35,24 +44,35 @@ const Cart = () => {
             const token = localStorage.getItem('jwtToken');
             if (token) {
                 const userId = JSON.parse(token).user_id;
-                await axios.delete(`/api/delete_item/${userId}/${bubbleTeaId}`);
-                const response = await axios.get(`/api/cart_items/${userId}`);
-                const { cart_items, total_amount } = response.data
-                toast('🗑️ Deleted bubble tea', {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    theme: "dark",
-                    style:{
-                        backgroundOpacity:20
-                    }
-                    
-                });
-                setCartTeas(cart_items);
-                setSubtotal(total_amount);
+                axios.delete(`/api/delete_item/${userId}/${bubbleTeaId}`)
+                    .then(() => {
+                        axios.get(`/api/cart_items/${userId}`)
+                            .then(response => {
+                                const { cart_items, total_amount } = response.data;
+                                
+                                toast('🗑️ Deleted bubble tea', {
+                                    position: "top-center",
+                                    autoClose: 5000,
+                                    hideProgressBar: true,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    theme: "dark",
+                                    style:{
+                                        backgroundOpacity:20
+                                    }
+                                });
+
+                                setCartTeas(cart_items);
+                                setSubtotal(total_amount);
+                            })
+                            .catch(error => {
+                                console.error('Failed to fetch cart items after delete:', error);
+                            });
+                    })
+                    .catch(error => {
+                        console.error('Failed to delete cart item:', error);
+                    });
             }
         } catch (error) {
             console.error('Failed to delete cart item:', error);
@@ -61,46 +81,43 @@ const Cart = () => {
 
     const total = subtotal + deliveryCharges;
 
-
     const handleProceedToPayment = async () => {
         try {
             const token = localStorage.getItem('jwtToken');
             if (token) {
-                const userId = JSON.parse(token).user_id
-                const address=JSON.parse(token).address
+                const userId = JSON.parse(token).user_id;
+                const address = JSON.parse(token).address;
                 const orderData = {
                     user_id: userId,
                     order_status: "pending",
                     address: address,
-                    total_amount:total
+                    total_amount: total
                 };
+
                 axios.post(`/api/orders`, orderData)
-                  .then(response => {
-                    console.log('successful:', response.data);
-                    toast.success('Order placed successfully!', {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
+                    .then(response => {
+                        console.log('Order placed successfully:', response.data);
+                        toast.success('Order placed successfully!', {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            theme: "dark",
+                        });
+
+                        setCartTeas([]);
+                        setSubtotal(0);
+                    })
+                    .catch(error => {
+                        console.error('Failed to place order:', error);
                     });
-    
-                    setCartTeas([])
-                    setSubtotal(0)
-                })
-                .catch(error => {
-                    console.error('failed:', error);
-                });
-                
             }
         } catch (error) {
             console.error('Failed to place order:', error);
         }
     };
-
 
     if (loading) {
         return (

@@ -54,17 +54,24 @@ const Customize = () => {
 
         try {
             console.log(updatedDrink);
-            const response = await axios.post('/api/bubble_tea', updatedDrink);
-            toast('🧋 Added to cart!', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                theme: "dark",
+            axios.post('/api/bubble_tea', updatedDrink)
+            .then(response => {
+                console.log('Signup successful:', response.data);
+                toast('🧋 Added to cart!', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    theme: "dark",
+                });
+                console.log('Added:', response.data);
+            })
+            .catch(error => {
+                console.error('Signup failed:', error);
             });
-            console.log('Added:', response.data);
+            
         } catch (error) {
             console.error('Failed to add:', error);
         } finally {
