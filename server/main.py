@@ -18,7 +18,9 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 app = FastAPI()
 
 origins = [
-    "http://localhost:5173",  
+    "https://bubblebrewsite.netlify.app/",
+    "http://localhost:5173"
+      
 ]
 
 app.add_middleware(
@@ -32,11 +34,6 @@ app.add_middleware(
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 #auth stuffs
-
-
-
-
-
 
 @app.post("/login", response_model=TokenSchema)
 async def login_for_access_token(user_login: UserLoginSchema, db: Session = Depends(get_db)):
