@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    volumes:
+      - .:/server
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://bubbleteashop_owner:4goZzsrLa3PF@ep-plain-frost-a19bopny.ap-southeast-1.aws.neon.tech/bubbleteashop?sslmode=require
+    depends_on:
+      - postgres
+
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+

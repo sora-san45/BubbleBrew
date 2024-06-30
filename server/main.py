@@ -6,8 +6,8 @@ from fastapi import FastAPI,Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from database import get_db,SessionLocal
-from models import BubbleTea, Cart, CartItem, Order, OrderItem, User
-from schema import BubbleTeaSchema, OrderBubbleTeaResponse, OrderSchema, TokenSchema, UserLoginSchema, UserSchema
+from app.models import BubbleTea, Cart, CartItem, Order, OrderItem, User
+from app.schema import BubbleTeaSchema, OrderBubbleTeaResponse, OrderSchema, TokenSchema, UserLoginSchema, UserSchema
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 

@@ -54,7 +54,7 @@ const Customize = () => {
 
         try {
             console.log(updatedDrink);
-            const response = await axios.post('http://127.0.0.1:8000/bubble_tea', updatedDrink);
+            const response = await axios.post('https://bubblebrew-server-latest.onrender.com/bubble_tea', updatedDrink);
             toast('🧋 Added to cart!', {
                 position: "top-center",
                 autoClose: 5000,

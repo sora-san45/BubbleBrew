@@ -26,7 +26,7 @@ const Signup = () => {
         e.preventDefault();
         try {
             
-            axios.post('http://127.0.0.1:8000/signup', formData)
+            axios.post('https://bubblebrew-server-latest.onrender.com/signup', formData)
                 .then(response => {
                     console.log('Signup successful:', response.data);
                     navigate('/login');

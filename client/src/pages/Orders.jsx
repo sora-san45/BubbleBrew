@@ -10,7 +10,7 @@ const Orders = () => {
         const fetchOrders = async () => {
             try {
                 
-                const response = await axios.get(`http://127.0.0.1:8000/orders/${userid}`);
+                const response = await axios.get(`https://bubblebrew-server-latest.onrender.com/orders/${userid}`);
                 setOrders(response.data);
             } catch (error) {
                 console.error('Error fetching orders:', error);

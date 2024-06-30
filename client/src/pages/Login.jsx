@@ -26,7 +26,7 @@ const Login = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const response = await axios.post('http://127.0.0.1:8000/login', formData);
+            const response = await axios.post('https://bubblebrew-server-latest.onrender.com/login', formData);
             localStorage.setItem('jwtToken', JSON.stringify(response.data));
             console.log(JSON.parse(localStorage.getItem('jwtToken')));
             setLoading(false);
