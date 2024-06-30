@@ -48,12 +48,12 @@ async def login_for_access_token(user_login: UserLoginSchema, db: Session = Depe
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    # Token creation inline
+  
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode = {"sub": user.email, "exp": datetime.utcnow() + access_token_expires}
     access_token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     
-    # Return TokenSchema with access_token, token_type, and user_id
+    
     return TokenSchema(access_token=access_token, token_type="bearer", user_id=user.id,address=user.address,user_name=user.first_name+" "+user.last_name,email=user.email)
 
 
