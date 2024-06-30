@@ -54,7 +54,7 @@ async def login_for_access_token(user_login: UserLoginSchema, db: Session = Depe
     access_token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     
     # Return TokenSchema with access_token, token_type, and user_id
-    return TokenSchema(access_token=access_token, token_type="bearer", user_id=user.id,address=user.address)
+    return TokenSchema(access_token=access_token, token_type="bearer", user_id=user.id,address=user.address,user_name=user.first_name+" "+user.last_name,email=user.email)
 
 
 @app.post("/signup",response_model=UserSchema)
@@ -253,7 +253,7 @@ def add_order(order_items: OrderSchema, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=str(e))
     
 
-@app.get("/orders", response_model=List[OrderBubbleTeaResponse])
+@app.get("/orders/{userid}", response_model=List[OrderBubbleTeaResponse])
 def get_orders(userid: UUID, db: Session = Depends(get_db)):
     try:
         orders = db.query(Order).filter(Order.user_id == userid).all()

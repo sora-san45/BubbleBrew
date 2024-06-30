@@ -4,6 +4,8 @@ import { MdShoppingBag } from 'react-icons/md';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { ThreeDots } from 'react-loader-spinner';
+
 const Customize = () => {
     const flavours = [
         { id: 1, text: "Chocolate", color: "bg-yellow-950" },
@@ -21,18 +23,18 @@ const Customize = () => {
     ];
 
     const [customDrink, setCustomDrink] = useState({
-        name:'',
-        user_id:JSON.parse(localStorage.getItem('jwtToken')).user_id,
+        name: '',
+        user_id: JSON.parse(localStorage.getItem('jwtToken')).user_id,
         flavour: '',
         flavour_color: '',
         topping: '',
         topping_color: '',
         size: '',
-        price:0,
+        price: 0,
         quantity: 0
     });
 
-    
+    const [loading, setLoading] = useState(false);
 
     const updateDrink = (key, value) => {
         setCustomDrink(prevState => ({
@@ -41,96 +43,104 @@ const Customize = () => {
         }));
     };
 
-    const addToCart = () => {
+    const addToCart = async () => {
         const updatedDrink = {
             ...customDrink,
             name: `${customDrink.flavour} ${customDrink.topping}`
         };
-        
-        setCustomDrink(updatedDrink);
-        try {   
-            console.log(updatedDrink)
-            axios.post('http://127.0.0.1:8000/bubble_tea', updatedDrink)
-                .then(response => {
-                    toast('🧋  Added to cart!', {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        theme: "dark",
-            
-                        
-                    });
-                    console.log('Added :', response.data);
-                })
-                .catch(error => {
-                    console.error('failed:', error);
-                });
-            
-        } catch (error) {
-            console.error("failed", error);
-        }
-        
-        const storedToken=localStorage.getItem('jwtToken')
-        if (storedToken) {
-            const tokenObject = JSON.parse(storedToken);
-            console.log('Stored JWT Token:', tokenObject);
-        } else {
-            console.log('Token not found in localStorage');
-        }
 
-        
-    }
+        setCustomDrink(updatedDrink);
+        setLoading(true); 
+
+        try {
+            console.log(updatedDrink);
+            const response = await axios.post('http://127.0.0.1:8000/bubble_tea', updatedDrink);
+            toast('🧋 Added to cart!', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "dark",
+            });
+            console.log('Added:', response.data);
+        } catch (error) {
+            console.error('Failed to add:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const incrementQty = () => updateDrink('quantity', customDrink.quantity + 1);
     const decrementQty = () => updateDrink('quantity', Math.max(0, customDrink.quantity - 1));
 
     return (
-        <div className="md:flex h-screen items-center justify-center p-5 gap-5 bg-orange-100">
-            <div className='w-5/6 md:flex-row-reverse flex flex-col p-3  bg-yellow-950 bg-opacity-50 rounded-md opacity-70 h:screen shadow-md'>
+        <div className="md:flex h-screen items-center justify-center p-5 gap-5 bg-orange-100 relative">
+            {loading && (
+                <div className="absolute inset-0 flex items-center justify-center   z-50">
+                    <ThreeDots
+                        visible={true}
+                        height="80"
+                        width="80"
+                        color="#59534c"
+                        radius="9"
+                        ariaLabel="three-dots-loading"
+                    />
+                </div>
+            )}
+            <div className='w-5/6 md:flex-row-reverse flex flex-col p-3 bg-yellow-950 bg-opacity-50 rounded-md opacity-70 h:screen shadow-md'>
                 <div className='flex flex-col bg-orange-100 shadow-md rounded-md justify-evenly p-4'>
                     <div className='rounded-md gap-3 flex flex-col'>
                         <h1 className='text-2xl font-semibold'>Flavour</h1>
                         <div className='flex flex-wrap max-w-80 gap-3'>
-                            {
-                                flavours.map(flavour => (
-                                    <div key={flavour.id} className='items-center gap-1 flex flex-col'>
-                                        <div onClick={() => updateDrink('flavour', flavour.text) || updateDrink('flavour_color', flavour.color)} className={`h-14 w-14 cursor-pointer rounded-3xl shadow-md p-2 flex gap-1 items-center  ${flavour.color}`}>
-                                        </div>
-                                        <h3>{flavour.text}</h3>
-                                    </div>
-                                ))
-                            }
+                            {flavours.map(flavour => (
+                                <div key={flavour.id} className='items-center gap-1 flex flex-col'>
+                                    <div
+                                        onClick={() => updateDrink('flavour', flavour.text) || updateDrink('flavour_color', flavour.color)}
+                                        className={`h-14 w-14 cursor-pointer rounded-3xl shadow-md p-2 flex gap-1 items-center ${flavour.color}`}
+                                    ></div>
+                                    <h3>{flavour.text}</h3>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     <div className='rounded-md gap-3 flex flex-col'>
                         <h1 className='text-2xl font-semibold'>Toppings</h1>
                         <div className='flex gap-3'>
-                            {
-                                toppings.map(topping => (
-                                    <div key={topping.id} className='items-center gap-1 flex flex-col'>
-                                        <div onClick={() => updateDrink('topping', topping.text) || updateDrink('topping_color', topping.color)} className='h-14 w-14 cursor-pointer rounded-3xl bg-orange-50 px-2.5 shadow-md p-2 flex gap-1 items-center'>
-                                            <div>
-                                                <div className={`h-4 w-4 rounded-lg ${topping.color} mb-1`}></div>
-                                                <div className={`h-4 w-4 rounded-lg ${topping.color}`}></div>
-                                            </div>
+                            {toppings.map(topping => (
+                                <div key={topping.id} className='items-center gap-1 flex flex-col'>
+                                    <div
+                                        onClick={() => updateDrink('topping', topping.text) || updateDrink('topping_color', topping.color)}
+                                        className='h-14 w-14 cursor-pointer rounded-3xl bg-orange-50 px-2.5 shadow-md p-2 flex gap-1 items-center'
+                                    >
+                                        <div>
+                                            <div className={`h-4 w-4 rounded-lg ${topping.color} mb-1`}></div>
                                             <div className={`h-4 w-4 rounded-lg ${topping.color}`}></div>
                                         </div>
-                                        <h3>{topping.text}</h3>
+                                        <div className={`h-4 w-4 rounded-lg ${topping.color}`}></div>
                                     </div>
-                                ))
-                            }
+                                    <h3>{topping.text}</h3>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     <div className='flex gap-10'>
                         <div className='rounded-md gap-3 flex flex-col'>
                             <h1 className='text-2xl font-semibold'>Size</h1>
                             <div className='flex gap-3'>
-                                <button className={`px-3 py-1 bg-black rounded text-orange-100 ${customDrink.size === 'S' ? ' opacity-100 ' : 'opacity-90'}`} onClick={() => {updateDrink('size', 'S');updateDrink('price',2)}}>S</button>
-                                <button className={`px-3 py-1 bg-black text-orange-100 rounded ${customDrink.size === 'M' ? ' opacity-100  ' : 'opacity-90'}`} onClick={() => {updateDrink('size', 'M');updateDrink('price',2.5)}}>M</button>
-                                <button className={`px-3 py-1 bg-black text-orange-100 rounded ${customDrink.size === 'L' ? ' opacity-100  ' : 'opacity-90'}`} onClick={() => {updateDrink('size', 'L');updateDrink('price',3)}}>L</button>
+                                <button
+                                    className={`px-3 py-1 bg-black rounded text-orange-100 ${customDrink.size === 'S' ? 'opacity-100' : 'opacity-90'}`}
+                                    onClick={() => { updateDrink('size', 'S'); updateDrink('price', 2); }}
+                                >S</button>
+                                <button
+                                    className={`px-3 py-1 bg-black text-orange-100 rounded ${customDrink.size === 'M' ? 'opacity-100' : 'opacity-90'}`}
+                                    onClick={() => { updateDrink('size', 'M'); updateDrink('price', 2.5); }}
+                                >M</button>
+                                <button
+                                    className={`px-3 py-1 bg-black text-orange-100 rounded ${customDrink.size === 'L' ? 'opacity-100' : 'opacity-90'}`}
+                                    onClick={() => { updateDrink('size', 'L'); updateDrink('price', 3); }}
+                                >L</button>
                             </div>
                         </div>
                         <div className='rounded-md gap-3 flex flex-col'>
@@ -150,7 +160,7 @@ const Customize = () => {
                         <div className='h-3 w-8 -mb-1 bg-black rounded z-50 shadow-md'></div>
                         <div className='h-24 rounded-t-full bg-orange-100 bg-opacity-30 w-40 shadow-md'></div>
                         <div className='h-5 w-44 rounded bg-black shadow-md'></div>
-                        <div className='h-52 w-40 flex flex-col bg-orange-100 bg-opacity-30 justify-end  shadow-md rounded-b-md'>
+                        <div className='h-52 w-40 flex flex-col bg-orange-100 bg-opacity-30 justify-end shadow-md rounded-b-md'>
                             <div className={`h-44 flex flex-col justify-end items-center gap-2 ${customDrink.flavour_color} p-3 rounded-b`}>
                                 <div className='flex gap-3'>
                                     <div className={`h-6 w-6 rounded-full ${customDrink.topping_color}`}></div>
@@ -165,12 +175,12 @@ const Customize = () => {
                             </div>
                         </div>
                     </div>
-                    <button className='bg-black  text-orange-100 rounded flex items-center gap-1 px-4 py-2' onClick={addToCart}>
+                    <button className='bg-black text-orange-100 rounded flex items-center gap-1 px-4 py-2' onClick={addToCart}>
                         <MdShoppingBag />
-                        <h1 className=' font-semibold' >Add </h1>
+                        <h1 className='font-semibold'>Add</h1>
                     </button>
                     <div>
-                        <ToastContainer  />
+                        <ToastContainer />
                     </div>
                 </div>
             </div>

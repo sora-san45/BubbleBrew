@@ -12,7 +12,7 @@ const Landing = () => {
                 className="h-screen w-1/2 bg-orange-200 shadow-lg bg-opacity-65 flex items-center -mt-10 rounded-br-full"
             >
                 <img
-                    src="/src/assets/—Pngtree—bubble drink milk tea and_9026973.png"
+                    src="/public/assets/—Pngtree—bubble drink milk tea and_9026973.png"
                     alt=""
                     className="-mt-20 h-96"
                 />
