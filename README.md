@@ -48,7 +48,7 @@ BubbleBrew is a web application that allows users to customize and order their f
 
 1. Navigate to the backend directory:
     ```sh
-    cd bubblebrew/backend
+    cd bubblebrew/server
     ```
 
 2. Create and activate a virtual environment:
