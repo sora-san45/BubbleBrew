@@ -54,7 +54,7 @@ const Customize = () => {
 
         try {
             console.log(updatedDrink);
-            axios.post('/api/bubble_tea', updatedDrink)
+            axios.post('https://bubblebrew-server-latest.onrender.com/bubble_tea/', updatedDrink)
             .then(response => {
                 console.log('Signup successful:', response.data);
                 toast('🧋 Added to cart!', {
