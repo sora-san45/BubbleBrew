@@ -43,7 +43,8 @@ const Customize = () => {
         }));
     };
 
-    const addToCart = async () => {
+    const addToCart = async (e) => {
+        e.preventDefault()
         const updatedDrink = {
             ...customDrink,
             name: `${customDrink.flavour} ${customDrink.topping}`

@@ -39,7 +39,8 @@ const Cart = () => {
         fetchCartItems();
     }, []);
 
-    const handleDeleteItem = async (bubbleTeaId) => {
+    const handleDeleteItem = async (bubbleTeaId,e) => {
+        e.preventDefault()
         try {
             const token = localStorage.getItem('jwtToken');
             if (token) {
@@ -81,7 +82,8 @@ const Cart = () => {
 
     const total = subtotal + deliveryCharges;
 
-    const handleProceedToPayment = async () => {
+    const handleProceedToPayment = async (e) => {
+        e.preventDefault()
         try {
             const token = localStorage.getItem('jwtToken');
             if (token) {
