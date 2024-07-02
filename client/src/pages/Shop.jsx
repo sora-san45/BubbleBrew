@@ -80,6 +80,41 @@ const Customize = () => {
         }
     };
 
+    setCustomDrink(updatedDrink);
+    setLoading(true); 
+
+    try {
+        console.log(updatedDrink);
+        await axios.post('https://bubblebrew-server-latest.onrender.com/bubble_tea/', updatedDrink, {
+            headers: {
+                Authorization: `Bearer ${JSON.parse(localStorage.getItem('jwtToken')).access_token}`
+            }
+        });
+        toast('🧋 Added to cart!', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+        });
+    } catch (error) {
+        console.error('Failed to add:', error);
+        toast('❌ Failed to add to cart!', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+        });
+    } finally {
+        setLoading(false);
+    }
+};
+
     const incrementQty = () => updateDrink('quantity', customDrink.quantity + 1);
     const decrementQty = () => updateDrink('quantity', Math.max(0, customDrink.quantity - 1));
 
